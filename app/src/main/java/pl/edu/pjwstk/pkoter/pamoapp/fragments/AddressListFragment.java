@@ -5,7 +5,13 @@ import android.os.Bundle;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import pl.edu.pjwstk.pkoter.pamoapp.R;
+import pl.edu.pjwstk.pkoter.pamoapp.dataAccess.AddressDao;
+import pl.edu.pjwstk.pkoter.pamoapp.dataAccess.AppDatabase;
+import pl.edu.pjwstk.pkoter.pamoapp.domain.Address;
 
 public class AddressListFragment extends ListFragment {
 
@@ -13,13 +19,18 @@ public class AddressListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String[] WEB_ADDRESSES = {
-                "ABC",
-                "DEF"
-        };
+        AddressDao addressDao = AppDatabase.getInstance(getContext()).getAddressDao();
+
+
+        List<Address> addresses = addressDao.getAll();
+
+        List<String> labels = new ArrayList<>();
+        for (Address address : addresses) {
+                        labels.add(address.getName()) ;
+        }
 
         setListAdapter(new ArrayAdapter<>(getActivity(),
-                android.R.layout.simple_list_item_activated_1, WEB_ADDRESSES));
+                android.R.layout.simple_list_item_activated_1, labels));
     }
 
     @Override

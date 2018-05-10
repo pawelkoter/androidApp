@@ -1,14 +1,62 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    tools:context="pl.edu.pjwstk.pkoter.pamoapp.fragments.AddressEditFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.AddressEditFragment">
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/address_edit_name"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:hint="@string/name_hint"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/address_edit_country"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/country_hint"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/address_edit_city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/city_hint"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/address_edit_street"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/street_hint"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/address_edit_house_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/house_number_hint"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/address_edit_apartment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/apartment_hint"
+        android:inputType="text" />
 
-</FrameLayout>
+    <Button
+        android:id="@+id/save_address_btn"
+        android:layout_width="96dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:textSize="14sp"
+        android:layout_gravity="right"
+        android:gravity="center"
+        android:text="@string/save_button_name"
+        />
+
+</LinearLayout>
