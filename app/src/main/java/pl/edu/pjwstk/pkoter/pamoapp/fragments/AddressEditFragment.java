@@ -2,7 +2,9 @@ package pl.edu.pjwstk.pkoter.pamoapp.fragments;
 
 
 import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,6 +27,7 @@ public class AddressEditFragment extends Fragment {
     private EditText mStreetEdit;
     private EditText mHouseNumberEdit;
     private EditText mApartmentEdit;
+    private Button mDeleteButton;
 
     private OnAddressSavedListener mOnAddressSavedListener;
 
@@ -81,17 +84,20 @@ public class AddressEditFragment extends Fragment {
         mStreetEdit = view.findViewById(R.id.address_edit_street);
         mHouseNumberEdit = view.findViewById(R.id.address_edit_house_number);
         mApartmentEdit = view.findViewById(R.id.address_edit_apartment);
+        mDeleteButton = view.findViewById(R.id.delete_address_btn);
 
         if (mAddress == null) {
             mAddress = new Address();
         }
 
-        mNameEdit.setText(mAddress.getName());
-        mCountryEdit.setText(mAddress.getCountry());
-        mCityEdit.setText(mAddress.getCity());
-        mStreetEdit.setText(mAddress.getStreet());
-        mHouseNumberEdit.setText(mAddress.getHouseNumber());
-        mApartmentEdit.setText(mAddress.getApartment());
+        setupForm();
+
+        mDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showDialog();
+            }
+        });
 
         Button saveBtn = view.findViewById(R.id.save_address_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -106,15 +112,27 @@ public class AddressEditFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            AddressService.getInstance().delete(mAddress, getContext());
+            mOnAddressSavedListener.onAddressSaved();
+        }
+    }
+
     public void editAddress(Address address) {
         mAddress = address;
+        setupForm();
+    }
 
+    private void setupForm() {
         mNameEdit.setText(mAddress.getName());
         mCountryEdit.setText(mAddress.getCountry());
         mCityEdit.setText(mAddress.getCity());
         mStreetEdit.setText(mAddress.getStreet());
         mHouseNumberEdit.setText(mAddress.getHouseNumber());
-        mApartmentEdit.setText(mAddress.getApartment());
+
+        mDeleteButton.setEnabled(mAddress.getId() > 0 );
     }
 
     private Address buildAddress() {
@@ -138,5 +156,11 @@ public class AddressEditFragment extends Fragment {
 
     private void saveAddress(Address address) {
         AddressService.getInstance().save(address, getContext());
+    }
+
+    private void showDialog() {
+        DialogFragment dialogFragment = new DeleteAddressDialogFragment();
+        dialogFragment.setTargetFragment(this, 0);
+        dialogFragment.show(getFragmentManager(), "delete");
     }
 }

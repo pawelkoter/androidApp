@@ -30,4 +30,13 @@ public class AddressService {
             dao.update(address);
         }
     }
+
+    public void delete(Address address, Context context) {
+        AddressDao dao = AppDatabase.getInstance(context)
+                .getAddressDao();
+
+        if (address.getId() > 0) {
+            dao.delete(address);
+        }
+    }
 }

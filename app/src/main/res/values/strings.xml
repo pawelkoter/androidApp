@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">PamoApp</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="name_hint">Name</string>
     <string name="country_hint">Country</string>
     <string name="city_hint">City</string>
@@ -10,4 +8,9 @@
     <string name="house_number_hint">House number</string>
     <string name="apartment_hint">Apartment</string>
     <string name="save_button_name">SAVE</string>
+    <string name="delete_button_name">Delete</string>
+    <string name="delete_address_dialog_message">Delete the address?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete_confirmation">Yes, delete</string>
+
 </resources>

@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="colorFab">#00c7b6</color>
     <color name="colorFabIcon">#ffffff</color>
+    <color name="red">#d9534f</color>
+    <color name="green">#5cb85c</color>
 </resources>
