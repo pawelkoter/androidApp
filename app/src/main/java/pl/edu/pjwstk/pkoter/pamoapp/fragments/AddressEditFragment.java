@@ -1,6 +1,8 @@
 package pl.edu.pjwstk.pkoter.pamoapp.fragments;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -24,6 +26,12 @@ public class AddressEditFragment extends Fragment {
     private EditText mHouseNumberEdit;
     private EditText mApartmentEdit;
 
+    private OnAddressSavedListener mOnAddressSavedListener;
+
+    public interface OnAddressSavedListener {
+        void onAddressSaved();
+    }
+
     public AddressEditFragment() {
         // Required empty public constructor
     }
@@ -34,6 +42,20 @@ public class AddressEditFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Activity activity = null;
+
+        if (context instanceof Activity){
+            activity = (Activity) context;
+        }
+
+        if (activity instanceof OnAddressSavedListener) {
+            mOnAddressSavedListener = (OnAddressSavedListener) activity;
+        }
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -65,6 +87,7 @@ public class AddressEditFragment extends Fragment {
             public void onClick(View view) {
                 Address address = buildAddress();
                 saveAddress(address);
+                mOnAddressSavedListener.onAddressSaved();
             }
         });
 
