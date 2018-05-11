@@ -20,9 +20,14 @@ import pl.edu.pjwstk.pkoter.pamoapp.domain.Address;
 public class AddressListFragment extends Fragment {
 
     private OnNewAddressButtonClickListener mNewAddressButtonClickListener;
+    private OnAddressClickListener mOnAddressClickListener;
 
     public interface OnNewAddressButtonClickListener {
         void onNewAddressButtonClick();
+    }
+
+    public interface OnAddressClickListener {
+        void onAddressClick(Address address);
     }
 
     @Override
@@ -43,6 +48,10 @@ public class AddressListFragment extends Fragment {
         if (activity instanceof OnNewAddressButtonClickListener) {
             mNewAddressButtonClickListener = (OnNewAddressButtonClickListener) activity;
         }
+
+        if (activity instanceof OnAddressClickListener) {
+            mOnAddressClickListener = (OnAddressClickListener) activity;
+        }
     }
 
     @Override
@@ -60,7 +69,7 @@ public class AddressListFragment extends Fragment {
 
         List<Address> addresses = getAddresses(context);
 
-        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses);
+        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses, mOnAddressClickListener);
 
         RecyclerView addressListView = (RecyclerView) view.findViewById(R.id.address_list);
 
@@ -75,7 +84,7 @@ public class AddressListFragment extends Fragment {
         List<Address> addresses = getAddresses(context);
 
         RecyclerView addressListView = (RecyclerView) getView().findViewById(R.id.address_list);
-        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses);
+        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses, mOnAddressClickListener);
         addressListView.setAdapter(adapter);
     }
 

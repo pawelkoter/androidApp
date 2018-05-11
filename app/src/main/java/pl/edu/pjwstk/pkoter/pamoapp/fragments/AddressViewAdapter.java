@@ -16,9 +16,12 @@ import pl.edu.pjwstk.pkoter.pamoapp.domain.Address;
 public class AddressViewAdapter extends RecyclerView.Adapter<AddressViewAdapter.AddressViewHolder> {
 
     private final List<Address> mValues;
+    private final AddressListFragment.OnAddressClickListener onAddressClickListener;
 
-    public AddressViewAdapter(List<Address> mValues) {
+    public AddressViewAdapter(List<Address> mValues,
+                              AddressListFragment.OnAddressClickListener onAddressClickListener) {
         this.mValues = mValues;
+        this.onAddressClickListener = onAddressClickListener;
     }
 
     @NonNull
@@ -33,6 +36,15 @@ public class AddressViewAdapter extends RecyclerView.Adapter<AddressViewAdapter.
     public void onBindViewHolder(@NonNull final AddressViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mContentView.setText(mValues.get(position).getName());
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != onAddressClickListener) {
+                    onAddressClickListener.onAddressClick(holder.mItem);
+                }
+            }
+        });
     }
 
     @Override

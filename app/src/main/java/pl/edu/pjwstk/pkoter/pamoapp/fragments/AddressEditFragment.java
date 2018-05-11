@@ -12,11 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import pl.edu.pjwstk.pkoter.pamoapp.R;
-import pl.edu.pjwstk.pkoter.pamoapp.dataAccess.AddressDao;
-import pl.edu.pjwstk.pkoter.pamoapp.dataAccess.AppDatabase;
 import pl.edu.pjwstk.pkoter.pamoapp.domain.Address;
+import pl.edu.pjwstk.pkoter.pamoapp.services.AddressService;
 
 public class AddressEditFragment extends Fragment {
+    private static final String ARG_ADDRESS = "ADDRESS";
 
     private Address mAddress;
     private EditText mNameEdit;
@@ -36,10 +36,22 @@ public class AddressEditFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static AddressEditFragment newInstance(String param1, String param2) {
+    public static AddressEditFragment newInstance(Address address) {
+
         AddressEditFragment fragment = new AddressEditFragment();
+        Bundle args = new Bundle();
+        args.putSerializable(ARG_ADDRESS, address);
+        fragment.setArguments(args);
 
         return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mAddress = (Address) getArguments().getSerializable(ARG_ADDRESS);
+        }
     }
 
     @Override
@@ -94,6 +106,17 @@ public class AddressEditFragment extends Fragment {
         return view;
     }
 
+    public void editAddress(Address address) {
+        mAddress = address;
+
+        mNameEdit.setText(mAddress.getName());
+        mCountryEdit.setText(mAddress.getCountry());
+        mCityEdit.setText(mAddress.getCity());
+        mStreetEdit.setText(mAddress.getStreet());
+        mHouseNumberEdit.setText(mAddress.getHouseNumber());
+        mApartmentEdit.setText(mAddress.getApartment());
+    }
+
     private Address buildAddress() {
         String name = mNameEdit.getText().toString();
         String country = mCountryEdit.getText().toString();
@@ -114,7 +137,6 @@ public class AddressEditFragment extends Fragment {
     }
 
     private void saveAddress(Address address) {
-        AddressDao addressDao = AppDatabase.getInstance(getContext()).getAddressDao();
-        addressDao.insert(address);
+        AddressService.getInstance().save(address, getContext());
     }
 }

@@ -5,11 +5,13 @@ import android.app.FragmentTransaction;
 import android.os.Bundle;
 
 import pl.edu.pjwstk.pkoter.pamoapp.R;
+import pl.edu.pjwstk.pkoter.pamoapp.domain.Address;
 import pl.edu.pjwstk.pkoter.pamoapp.fragments.AddressEditFragment;
 import pl.edu.pjwstk.pkoter.pamoapp.fragments.AddressListFragment;
 
 public class MainActivity extends Activity
         implements AddressListFragment.OnNewAddressButtonClickListener,
+                   AddressListFragment.OnAddressClickListener,
                    AddressEditFragment.OnAddressSavedListener {
 
     @Override
@@ -43,27 +45,6 @@ public class MainActivity extends Activity
     }
 
     @Override
-    public void onNewAddressButtonClick() {
-        AddressEditFragment addressEditFragment = (AddressEditFragment)
-                getFragmentManager().findFragmentById(R.id.address_edit_fragment);
-
-        boolean horizontalOrientation = addressEditFragment != null;
-        if (horizontalOrientation) {
-            //do nothing for now
-        } else {
-            AddressEditFragment newFragment = new AddressEditFragment();
-//            Bundle args = new Bundle();
-//            args.putInt(MyWebViewFragment.ARG_POSITION, position);
-//            newFragment.setArguments(args);
-
-            FragmentTransaction transaction = getFragmentManager().beginTransaction();
-            transaction.replace(R.id.main_vertical_container, newFragment);
-            transaction.addToBackStack(null);
-            transaction.commit();
-        }
-    }
-
-    @Override
     public void onAddressSaved() {
         getFragmentManager().popBackStackImmediate();
 
@@ -81,5 +62,32 @@ public class MainActivity extends Activity
         }
 
         listFragment.refreshList();
+    }
+
+    @Override
+    public void onNewAddressButtonClick() {
+        loadAddressEditFragment(new Address());
+    }
+
+    @Override
+    public void onAddressClick(Address address) {
+        loadAddressEditFragment(address);
+    }
+
+    private void loadAddressEditFragment(Address address) {
+        AddressEditFragment addressEditFragment = (AddressEditFragment)
+                getFragmentManager().findFragmentById(R.id.address_edit_fragment);
+
+        boolean horizontalOrientation = addressEditFragment != null;
+        if (horizontalOrientation) {
+            addressEditFragment.editAddress(address);
+        } else {
+            AddressEditFragment newFragment = AddressEditFragment.newInstance(address);
+
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.main_vertical_container, newFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+        }
     }
 }

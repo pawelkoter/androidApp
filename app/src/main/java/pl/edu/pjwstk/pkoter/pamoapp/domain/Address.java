@@ -3,8 +3,10 @@ package pl.edu.pjwstk.pkoter.pamoapp.domain;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity
-public class Address {
+public class Address implements Serializable {
     @PrimaryKey(autoGenerate = true)
     private int id;
     private String name;
