@@ -2,16 +2,19 @@ package pl.edu.pjwstk.pkoter.pamoapp.activities;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 
 import pl.edu.pjwstk.pkoter.pamoapp.R;
 import pl.edu.pjwstk.pkoter.pamoapp.domain.Address;
 import pl.edu.pjwstk.pkoter.pamoapp.fragments.AddressEditFragment;
 import pl.edu.pjwstk.pkoter.pamoapp.fragments.AddressListFragment;
+import pl.edu.pjwstk.pkoter.pamoapp.services.NavigationService;
 
 public class MainActivity extends Activity
         implements AddressListFragment.OnNewAddressButtonClickListener,
                    AddressListFragment.OnAddressClickListener,
+                   AddressListFragment.OnNavigateButtonClickListener,
                    AddressEditFragment.OnAddressSavedListener {
 
     @Override
@@ -89,5 +92,11 @@ public class MainActivity extends Activity
             transaction.addToBackStack(null);
             transaction.commit();
         }
+    }
+
+    @Override
+    public void onNavigationButtonClicked(Address address) {
+        Intent intent = NavigationService.buildNavigationIntent(address);
+        startActivity(intent);
     }
 }

@@ -17,11 +17,15 @@ public class AddressViewAdapter extends RecyclerView.Adapter<AddressViewAdapter.
 
     private final List<Address> mValues;
     private final AddressListFragment.OnAddressClickListener onAddressClickListener;
+    private final AddressListFragment.OnNavigateButtonClickListener onNavigateButtonClickListener;
+
 
     public AddressViewAdapter(List<Address> mValues,
-                              AddressListFragment.OnAddressClickListener onAddressClickListener) {
+                              AddressListFragment.OnAddressClickListener onAddressClickListener,
+                              AddressListFragment.OnNavigateButtonClickListener onNavigateButtonClickListener) {
         this.mValues = mValues;
         this.onAddressClickListener = onAddressClickListener;
+        this.onNavigateButtonClickListener = onNavigateButtonClickListener;
     }
 
     @NonNull
@@ -42,6 +46,15 @@ public class AddressViewAdapter extends RecyclerView.Adapter<AddressViewAdapter.
             public void onClick(View v) {
                 if (null != onAddressClickListener) {
                     onAddressClickListener.onAddressClick(holder.mItem);
+                }
+            }
+        });
+
+        holder.mNavigateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (null != onNavigateButtonClickListener) {
+                    onNavigateButtonClickListener.onNavigationButtonClicked(holder.mItem);
                 }
             }
         });

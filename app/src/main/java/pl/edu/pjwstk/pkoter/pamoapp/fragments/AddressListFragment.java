@@ -21,6 +21,8 @@ public class AddressListFragment extends Fragment {
 
     private OnNewAddressButtonClickListener mNewAddressButtonClickListener;
     private OnAddressClickListener mOnAddressClickListener;
+    private OnNavigateButtonClickListener mOnNavigateButtonClickListener;
+
 
     public interface OnNewAddressButtonClickListener {
         void onNewAddressButtonClick();
@@ -28,6 +30,10 @@ public class AddressListFragment extends Fragment {
 
     public interface OnAddressClickListener {
         void onAddressClick(Address address);
+    }
+
+    public interface OnNavigateButtonClickListener {
+        void onNavigationButtonClicked(Address address);
     }
 
     @Override
@@ -52,6 +58,10 @@ public class AddressListFragment extends Fragment {
         if (activity instanceof OnAddressClickListener) {
             mOnAddressClickListener = (OnAddressClickListener) activity;
         }
+
+        if (activity instanceof OnNavigateButtonClickListener) {
+            mOnNavigateButtonClickListener = (OnNavigateButtonClickListener) activity;
+        }
     }
 
     @Override
@@ -69,7 +79,8 @@ public class AddressListFragment extends Fragment {
 
         List<Address> addresses = getAddresses(context);
 
-        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses, mOnAddressClickListener);
+        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses,
+                mOnAddressClickListener, mOnNavigateButtonClickListener);
 
         RecyclerView addressListView = (RecyclerView) view.findViewById(R.id.address_list);
 
@@ -84,7 +95,8 @@ public class AddressListFragment extends Fragment {
         List<Address> addresses = getAddresses(context);
 
         RecyclerView addressListView = (RecyclerView) getView().findViewById(R.id.address_list);
-        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses, mOnAddressClickListener);
+        RecyclerView.Adapter adapter = new AddressViewAdapter(addresses,
+                mOnAddressClickListener, mOnNavigateButtonClickListener);
         addressListView.setAdapter(adapter);
     }
 
